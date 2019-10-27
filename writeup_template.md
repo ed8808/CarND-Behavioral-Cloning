@@ -18,13 +18,13 @@ The goals / steps of this project are the following:
 
 [//]: # (Image References)
 
-[image1]: ./examples/placeholder.png "Model Visualization"
-[image2]: ./examples/placeholder.png "Grayscaling"
-[image3]: ./examples/placeholder_small.png "Recovery Image"
-[image4]: ./examples/placeholder_small.png "Recovery Image"
-[image5]: ./examples/placeholder_small.png "Recovery Image"
-[image6]: ./examples/placeholder_small.png "Normal Image"
-[image7]: ./examples/placeholder_small.png "Flipped Image"
+[image1]: ./examples/cnn-architecture-362x516.png "Nvidia CNN -- Deep Learning Self Driving Car"
+[image2]: ./examples/center_2019_10_25_22_51_08_242.jpg "Center Lane Image"
+[image3]: ./examples/left_2019_10_25_22_51_08_242.jpg "Left side Image"
+[image4]: ./examples/right_2019_10_25_22_51_08_242.jpg "Right side Image"
+[image5]: ./examples/center_2019_10_25_22_51_08_242.jpg "Normal Image"
+[image6]: ./examples/center_2019_10_25_22_51_08_242.jpg "Flipped Image"
+[image7]: ./examples/center_2019_10_25_22_51_08_242c.jpg "Cropped Image"
 
 ## Rubric Points
 ### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
@@ -82,15 +82,26 @@ For details about how I created the training data, see the next section.
 
 #### 1. Solution Design Approach
 
-The overall strategy for deriving a model architecture was to adopt with the conventional LeNet CNN.
+The overall strategy for deriving a model architecture was to adopt with the conventional Nvidia CNN for self driving car deep learning.
 
-My first step was to use a convolution neural network model similar to the LeNet I thought this model might be appropriate because ...
+My first step was to use a convolution neural network model similar to the LeNet I thought this model might be appropriate because LeNet is a powerful CNN.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. I found that my first model had a low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set. 
 
-To combat the overfitting, I modified the model so that ...
+I then switched to Nvidia CNN to compare, the result was satisfactory.  
+Here are the 5 epochs with training loss and validation loss
 
-Then I ... 
+458/458 [==============================] - 138s 300ms/step - loss: 0.1743 - val_loss: 0.0243
+Epoch 2/5
+458/458 [==============================] - 135s 294ms/step - loss: 0.0231 - val_loss: 0.0214
+Epoch 3/5
+458/458 [==============================] - 135s 295ms/step - loss: 0.0210 - val_loss: 0.0204
+Epoch 4/5
+458/458 [==============================] - 135s 295ms/step - loss: 0.0199 - val_loss: 0.0197
+Epoch 5/5
+458/458 [==============================] - 136s 296ms/step - loss: 0.0193 - val_loss: 0.0197
+
+Apart from first epochs, the training loss and validation loss were quite closed, there is not much overfitting or underfitting.
 
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track... to improve the driving behavior in these cases, I used the default training set together with training sets of non-center line driving and opposite clockwise driving.
 
@@ -98,7 +109,7 @@ At the end of the process, the vehicle is able to drive autonomously around the 
 
 #### 2. Final Model Architecture
 
-The final model architecture (model.py lines 97-106) Nvidia consisted of a convolution neural network with the following layers and layer sizes 
+The final model architecture (model.py lines 97-106) Nvidia consisted of a convolution neural network with the following layers and layer sizes. It has about 27 million connections and 250 thousand parameters.
 Conv2D(24,5,5,subsample=(2,2),activation="relu")
 Conv2D(36,5,5,subsample=(2,2),activation="relu")
 Conv2D(48,5,5,subsample=(2,2),activation="relu")
@@ -124,20 +135,20 @@ I then recorded the vehicle recovering from the left side and right sides of the
 
 ![alt text][image3]
 ![alt text][image4]
-![alt text][image5]
 
 Then I repeated this process on track two in order to get more data points.
 
 To augment the data sat, I also flipped images and angles thinking that this would ... For example, here is an image that has then been flipped:
 
+![alt text][image5]
 ![alt text][image6]
-![alt text][image7]
 
 Etc ....
 
-After the collection process, I had X number of data points. I then preprocessed this data by ...
+After the collection process, I had 18321 number of data points. I then preprocessed this data by normalization (value / 255 ) - 0.5 so that it is in range between -0.5 and 0.5.  Then the images are cropped to remove upper and lower parts of images to reduce influence to deep learning model
 
+![alt text][image7]
 
-I finally randomly shuffled the data set and put Y% of the data into a validation set. 
+I finally randomly shuffled the data set and put 20% of the data into a validation set. 
 
-I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was Z as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
+I used this training data for training the model. The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 5 as evidenced by ... I used an adam optimizer so that manually training the learning rate wasn't necessary.
